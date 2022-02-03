@@ -9,7 +9,7 @@ manos_de_5 = binomial(deck, cartas_mano) # son combinaciones
 # de esas 2 de 13 cartas ocupamos formar los pares
 # por lo tanto, debemos de seleccionar 2 palos de 4 DOS veces
 palos = 4
-cartas_por_palo = deck / palos
+cartas_por_palo = trunc(Int, deck / palos)
 dos_pares = binomial(cartas_por_palo,2) * binomial(palos,2)^2
 # tenemos 4 cartas nos falta 1
 # para poder seleccionar la ultima carta, quitamos 2 cartas del set de 13 de cada palo
