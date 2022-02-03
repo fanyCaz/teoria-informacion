@@ -14,7 +14,7 @@ dos_pares = binomial(cartas_por_palo,2) * binomial(palos,2)^2
 # tenemos 4 cartas nos falta 1
 # para poder seleccionar la ultima carta, quitamos 2 cartas del set de 13 de cada palo
 # y escojemos 1 palo de 4 porque solo es una carta
-ultima_carta = binomial(11,1) * binomial(palos,1)
+ultima_carta = binomial(cartas_por_palo-2,1) * binomial(palos,1)
 # por ultimo, multiplicamos todo para obtener cuantas manos posibles formamos
 manos_de_2pares = dos_pares * ultima_carta
 @show manos_de_2pares
