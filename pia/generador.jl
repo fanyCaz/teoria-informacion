@@ -10,11 +10,11 @@ function generate()
     configuracion = []
 
     for frame in 1:m
-        top_iob = rand(Bool, 12)
-        bot_iob = rand(Bool, 12)
+        top_iob = rand(Bool, 18)
+        bot_iob = rand(Bool, 18)
         clb = []
         for clbs in 1:n
-            clb_n = rand(Bool, 12)
+            clb_n = rand(Bool, 18)
             push!(clb, clb_n)
         end
         marco = vcat(top_iob, clb..., bot_iob)
