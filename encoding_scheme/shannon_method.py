@@ -14,10 +14,9 @@ def get_lengths(frequencies):
     length.append( math.ceil(math.log2(1/i)) )
   return length,Fi
 
-def get_codification(r):
+def get_codification(val):
   code = []
   values = []
-  val = r
   values.append(str(val))
   while 1:
     if val < 1:
@@ -34,15 +33,19 @@ def get_codification(r):
   values = []
   return code
 
-def codificate(code):
+def codificate(code,idx):
   code_string = "".join( str(x) for x in code )
-  print(f'length {i} -> {code_string[:i]}')
+  print(f'length {idx} -> {code_string[:idx]}')
 
-fi = [0.2,0.32,0.18,0.15,0.1,0.05]
+def main(fi):
+  lengths,Fi = get_lengths(fi)
+  print("Codification -")
+  for idx,i in enumerate(lengths):
+    code = get_codification(Fi[idx])
+    codificate(code,i)
+  u.compression_ratio(lengths, fi)
 
-lengths,Fi = get_lengths(fi)
-print("Codification -")
-for idx,i in enumerate(lengths):
-  code = get_codification(Fi[idx])
-  codificate(code)
-u.compression_ratio(lengths, fi)
+if __name__ == '__main__':
+  fi = [0.2,0.32,0.18,0.15,0.1,0.05]
+  main(fi)
+
