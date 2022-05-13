@@ -1,3 +1,5 @@
+include("binary.jl")
+
 function collected_values(values)
   return sort(collect(keys(values)))
 end
@@ -31,7 +33,7 @@ end
 function main()
   fi = [0.25,0.2,0.2,0.15,0.1,0.1]
   alphabet = ['a','b','c','d','e','f']
-  sequence = "ffac"
+  sequence = "bfac"
   frequencies = Dict([ (letter,f) for (letter,f) in zip(alphabet,fi)])
   sorted_alphabet = collected_values(frequencies)
   println("Inicio de ciclo")
@@ -55,8 +57,9 @@ function main()
       alpha,betha,long = getMiddleValues(position, pre_a, pre_l, frequencies, sequence[1:index], prev_letters, first)
     end
     first = false
-    println("a $alpha b $betha, l $long")
   end
+  println("a $alpha b $betha, l $long")
+  smallest_integer(alpha,betha,long)
 end
 
 main()
