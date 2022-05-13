@@ -31,7 +31,7 @@ end
 function main()
   fi = [0.25,0.2,0.2,0.15,0.1,0.1]
   alphabet = ['a','b','c','d','e','f']
-  sequence = "ac"
+  sequence = "ffac"
   frequencies = Dict([ (letter,f) for (letter,f) in zip(alphabet,fi)])
   sorted_alphabet = collected_values(frequencies)
   println("Inicio de ciclo")
@@ -46,6 +46,7 @@ function main()
     if position_letter == 1
       alpha,betha,long = getFirstIndexValues(alpha,frequencies,sequence[1:index])
     elseif position_letter == length(fi)
+      betha = first ? frequencies[sorted_alphabet[position_letter]] : betha
       alpha,betha,long = getLastIndexValues(betha,sequence[1:index],frequencies)
     else
       var =frequencies[sorted_alphabet[position_letter-1]]
@@ -56,7 +57,6 @@ function main()
     first = false
     println("a $alpha b $betha, l $long")
   end
-  alpha,betha,long
 end
 
 main()
