@@ -64,9 +64,8 @@ function main()
     first = false
   end
   println("a $alpha b $betha, l $long")
-  t = smallest_integer(alpha,betha,long)
-  r = get_inequalities(alpha,betha,t)
-  getCodification(1/r)
+  run_method_one(alpha,betha,long)
+  run_method_two(alpha,betha)
 end
 
 main()
