@@ -1,4 +1,5 @@
 include("binary.jl")
+include("r_method.jl")
 
 function collected_values(values)
   return sort(collect(keys(values)))
@@ -6,6 +7,10 @@ end
 
 function productLetterFrequencies(frequencies, letters)
   return prod([ frequencies[letter] for letter in letters ])
+end
+
+function sumLetterFrequencies(frequencies, letters)
+  return sum([ frequencies[letter] for letter in letters])
 end
 
 function getFirstIndexValues(prev_alpha, frequencies, letters)
@@ -16,7 +21,7 @@ function getFirstIndexValues(prev_alpha, frequencies, letters)
 end
 
 function getMiddleValues(position, pre_alpha, pre_len, frequencies, letters, prev_letters, first=false)
-  previus_lengths = first ? 0 : productLetterFrequencies(frequencies, prev_letters)
+  previus_lengths = first ? 0 : sumLetterFrequencies(frequencies, prev_letters)
   len = productLetterFrequencies(frequencies, letters)
   alpha = pre_alpha + pre_len*previus_lengths
   beta = len + alpha
@@ -59,7 +64,9 @@ function main()
     first = false
   end
   println("a $alpha b $betha, l $long")
-  smallest_integer(alpha,betha,long)
+  t = smallest_integer(alpha,betha,long)
+  r = get_inequalities(alpha,betha,t)
+  getCodification(1/r)
 end
 
 main()
