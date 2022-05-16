@@ -35,12 +35,19 @@ function getLastIndexValues(pre_beta,letters, frequencies)
   return alpha,beta,len
 end
 
-function main()
-  fi = [0.25,0.2,0.2,0.15,0.1,0.1]
-  alphabet = ['a','b','c','d','e','f']
-  sequence = "bfac"
-  frequencies = Dict([ (letter,f) for (letter,f) in zip(alphabet,fi)])
-  sorted_alphabet = collected_values(frequencies)
+function arithmetic(freq_table, sequence)
+
+  float_freq = Dict()
+  len_str = length(sequence)
+  for (key, value) in freq_table
+    float_freq[key] = value / len_str
+  end
+  # freq_table = float_freq
+  fi = values(float_freq)
+  alphabet = keys(float_freq)
+  # sequence = "bfac"
+  
+  sorted_alphabet = collected_values(float_freq)
   println("Inicio de ciclo")
   first = true
   alpha = 0
@@ -51,15 +58,15 @@ function main()
     println("letra $letter")
     position_letter = findfirst(x-> x == letter, sorted_alphabet) 
     if position_letter == 1
-      alpha,beta,long = getFirstIndexValues(alpha,frequencies,sequence[1:index])
+      alpha,beta,long = getFirstIndexValues(alpha,float_freq,sequence[1:index])
     elseif position_letter == length(fi)
-      beta = first ? frequencies[sorted_alphabet[position_letter]] : beta
-      alpha,beta,long = getLastIndexValues(beta,sequence[1:index],frequencies)
+      beta = first ? float_freq[sorted_alphabet[position_letter]] : beta
+      alpha,beta,long = getLastIndexValues(beta,sequence[1:index], float_freq)
     else
-      var =frequencies[sorted_alphabet[position_letter-1]]
+      var =freq_table[sorted_alphabet[position_letter-1]]
       prev_letters = sorted_alphabet[1:findfirst(isequal(letter), sorted_alphabet)-1]
       pre_a, pre_l = first ? (var,var) : (alpha,long)
-      alpha,beta,long = getMiddleValues(position, pre_a, pre_l, frequencies, sequence[1:index], prev_letters, first)
+      alpha,beta,long = getMiddleValues(position, pre_a, pre_l, float_freq, sequence[1:index], prev_letters, first)
     end
     first = false
   end
@@ -67,6 +74,5 @@ function main()
   run_method_one(alpha,beta,long)
   run_method_two(alpha,beta)
 end
-
-main()
+# main()
 
