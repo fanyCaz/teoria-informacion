@@ -21,7 +21,7 @@ function makefreqdict(s::String)
             d[c] += 1
         end
     end
-    d
+    return d
 end
 
 function huffmantree(ftable::Dict)
@@ -35,7 +35,11 @@ function huffmantree(ftable::Dict)
     trees[1]
 end
 
-printencoding(lf::HuffmanLeaf, code) = println(lf.ch == ' ' ? "space" : lf.ch, "\t", lf.freq, "\t", code)
+function printencoding(lf::HuffmanLeaf, code)
+    println(lf.ch == ' ' ? "espacio" : lf.ch, "\t", lf.freq, "\t", code)
+    return code
+end
+
 
 function printencoding(nd::HuffmanNode, code)
     code *= '0'
@@ -45,9 +49,7 @@ function printencoding(nd::HuffmanNode, code)
     code *= '1'
     printencoding(nd.right, code)
     code = code[1:end-1]
+
+
 end
 
-const msg = "this is an example for huffman encoding"
-
-println("Char\tFreq\tHuffman code")
-printencoding(huffmantree(makefreqdict(msg)), "")
