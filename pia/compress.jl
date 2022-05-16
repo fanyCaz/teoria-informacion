@@ -1,9 +1,8 @@
 using DelimitedFiles
 
-function read_raw(path::String)
-    conf = readdlm(path, '\t', Bool, '\n')
-    return conf
-end
+include("huffman.jl")
+include("huffman2.jl")
+include("arithmetic_encoding.jl")
 
 function read_meta(path::String)
     n = 0
@@ -31,26 +30,37 @@ end
 
 function read_compressed(path::String)
     compressed = readdlm(path, ' ')
-    println(compressed)
     return compressed
 end
 
-
 function main()
-    original_conf = read_raw(ARGS[1])
-    lookup_table, n, m = read_meta(ARGS[2])
-    compressed = read_compressed(ARGS[3])
+    lookup_table, n, m = read_meta(ARGS[1])
+    compressed = read_compressed(ARGS[2])
     configuration = []
     for symbol in compressed
         comb = lookup_table[symbol]
-        println(comb)
         for digit in comb
             push!(configuration, digit) # idk
         end
     end
     num_cols = m
-    configuration_processed = reshape(configuration, :, num_cols) # lossless config original
-    println(configuration_processed == original_conf)
+    configuration_processed = reshape(configuration, :, num_cols)
+    msg = string(compressed...)
+    @show msg
+
+    println("Huffman: ")
+
+    freq_table = makefreqdict(msg)
+
+    huffman_tree = create_tree(msg)
+    codes = create_codebook(huffman_tree)
+    println(freq_table)
+    println(codes)
+    bitstring = encode(codes, msg)
+    println(bitstring)
+
+    println("Arithmetic: ")
+    # arithmetic(freq_table, msg)
 end
 
 main()
