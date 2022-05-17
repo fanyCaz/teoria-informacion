@@ -36,7 +36,6 @@ function getLastIndexValues(pre_beta,letters, frequencies)
 end
 
 function arithmetic(freq_table, sequence)
-
   float_freq = Dict()
   len_str = length(sequence)
   for (key, value) in freq_table
@@ -74,5 +73,4 @@ function arithmetic(freq_table, sequence)
   run_method_one(alpha,beta,long)
   run_method_two(alpha,beta)
 end
-# main()
 

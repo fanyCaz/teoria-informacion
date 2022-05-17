@@ -60,7 +60,7 @@ function main()
     println(bitstring)
 
     println("Arithmetic: ")
-    # arithmetic(freq_table, msg)
+    arithmetic(freq_table, msg)
 end
 
 main()
