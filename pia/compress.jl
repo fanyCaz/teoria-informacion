@@ -3,6 +3,7 @@ using DelimitedFiles
 include("huffman.jl")
 include("huffman2.jl")
 include("arithmetic_encoding.jl")
+include("utils.jl")
 
 function read_meta(path::String)
     n = 0
@@ -51,16 +52,18 @@ function main()
     println("Huffman: ")
 
     freq_table = makefreqdict(msg)
+    println("frecuencias $freq_table")
 
     huffman_tree = create_tree(msg)
     codes = create_codebook(huffman_tree)
-    println(freq_table)
-    println(codes)
+    println("codes: $codes")
     bitstring = encode(codes, msg)
     println(bitstring)
+    c_ratio = compression_ratio(freq_table, codes)
+    println("Compression ration for Huffman: $c_ratio")
 
     println("Arithmetic: ")
-    arithmetic(freq_table, msg)
+    #arithmetic(freq_table, msg)
 end
 
 main()
