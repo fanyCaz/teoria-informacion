@@ -43,7 +43,7 @@ def main(fi):
   for idx,i in enumerate(lengths):
     code = get_codification(Fi[idx])
     codificate(code,i)
-  u.compression_ratio(lengths, fi)
+  u.compression_ratio(lengths, Fi)
 
 if __name__ == '__main__':
   fi = [0.2,0.32,0.18,0.15,0.1,0.05]
