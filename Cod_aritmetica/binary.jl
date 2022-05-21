@@ -1,5 +1,9 @@
 include("r_method.jl")
 
+function readeable_code(code)
+  return join(code)
+end
+
 # Method 1
 function smallest_integer(alpha,beta,long)
   isUnderLength = false
@@ -8,7 +12,6 @@ function smallest_integer(alpha,beta,long)
     t += 1
     isUnderLength = 1/(2^t) <= long
   end
-  println("t $t")
   return t
 end
 
@@ -18,7 +21,6 @@ function get_inequalities(alpha,beta,t)
 
   alpha_l = alpha*(2^t)
   beta_l = beta*(2^t)
-  println("l $lower u $upper aa $alpha_l bb $beta_l")
   return min( round(alpha_l), round(beta_l) )
 end
 
@@ -26,7 +28,8 @@ function run_method_one(alpha,beta,long)
   println("Metodo 1")
   t = smallest_integer(alpha,beta,long)
   r = get_inequalities(alpha,beta,t)
-  getCodification(1/r)
+  code = getCodification(1/r)
+  println( readeable_code(code) )
 end
 
 # Method 2
@@ -58,5 +61,5 @@ function run_method_two(alpha,beta)
       break
     end
   end
-  println(code)
+  println( readeable_code(code) )
 end

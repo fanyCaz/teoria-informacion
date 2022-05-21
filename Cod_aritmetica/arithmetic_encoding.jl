@@ -42,7 +42,6 @@ function arithmetic_encoding(frequencies, sorted_alphabet, sequence)
   long = 0
   # prev_letters = sorted letters, takes the previous of the current letter, if 'c' then takes 'a','b' and so on
   for (index,letter) in enumerate(sequence)
-    println("letra $letter")
     position_letter = findfirst(x-> x == letter, sorted_alphabet) 
     if position_letter == 1
       alpha,beta,long = getFirstIndexValues(alpha,frequencies,sequence[1:index])
@@ -57,7 +56,6 @@ function arithmetic_encoding(frequencies, sorted_alphabet, sequence)
     end
     first = false
   end
-  println("a $alpha b $beta, l $long")
   return alpha,beta,long
 end
 
@@ -68,7 +66,6 @@ function arithmetic_adaptative(frequencies, sorted_alphabet, sequence)
   long = 0
   # prev_letters = sorted letters, takes the previous of the current letter, if 'c' then takes 'a','b' and so on
   for (index,letter) in enumerate(sequence)
-    println("letra $letter")
     position_letter = findfirst(x-> x == letter, sorted_alphabet) 
     if position_letter == 1
       #alpha,betha,long = getFirstIndexValues(alpha,frequencies,sequence[1:index])
@@ -83,7 +80,6 @@ function arithmetic_adaptative(frequencies, sorted_alphabet, sequence)
     end
     first = false
   end
-  println("a $alpha b $betha, l $long")
   return alpha,betha,long
 end
 
@@ -95,10 +91,13 @@ function main()
   sorted_alphabet = collected_values(frequencies)
   println("Inicio de ciclo")
   
-  alpha,beta,long = arithmetic_encoding(frequencies, sorted_alphabet, sequence)
-  println("a $alpha b $beta, l $long")
-  run_method_one(alpha,beta,long)
-  run_method_two(alpha,beta)
+  for (idx,set) in enumerate(sequence)
+    println("Analizando secuencia: $(sequence[1:idx])")
+    alpha,beta,long = arithmetic_encoding(frequencies, sorted_alphabet, sequence[1:idx])
+    println("a $alpha b $beta, l $long")
+    run_method_one(alpha,beta,long)
+    run_method_two(alpha,beta)
+  end
 end
 
 main()
