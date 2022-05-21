@@ -15,6 +15,5 @@ function getCodification(val)
     end
   end
   values = []
-  println("final code $code")
   return code
 end

@@ -63,7 +63,11 @@ function main()
     println("Compression ration for Huffman: $c_ratio")
 
     println("Arithmetic: ")
-    #arithmetic(freq_table, msg)
+    println(msg)
+    for (idx,set) in enumerate(msg)
+        println("Analizando secuencia: $(msg[1:idx])")
+        arithmetic(freq_table, msg[1:idx])
+    end
 end
 
 main()
