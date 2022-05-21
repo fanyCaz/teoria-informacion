@@ -62,38 +62,36 @@ end
 function arithmetic_adaptative(frequencies, sorted_alphabet, sequence)
   first = true
   alpha = 0
-  betha = 0
+  beta = 0
   long = 0
+  elements = unique(sequence)
   # prev_letters = sorted letters, takes the previous of the current letter, if 'c' then takes 'a','b' and so on
-  for (index,letter) in enumerate(sequence)
-    position_letter = findfirst(x-> x == letter, sorted_alphabet) 
-    if position_letter == 1
-      #alpha,betha,long = getFirstIndexValues(alpha,frequencies,sequence[1:index])
-    elseif position_letter == length(frequencies)
-      #betha = first ? frequencies[sorted_alphabet[position_letter]] : betha
-      #alpha,betha,long = getLastIndexValues(betha,sequence[1:index],frequencies)
+  for (index,letter) in enumerate(elements)
+    long = count(isequal(letter), sequence)/length(sequence)
+    if first
+      alpha = 0
+      beta = long
     else
-      #var =frequencies[sorted_alphabet[position_letter-1]]
-      #prev_letters = sorted_alphabet[1:findfirst(isequal(letter), sorted_alphabet)-1]
-      #pre_a, pre_l = first ? (var,var) : (alpha,long)
-      #alpha,betha,long = getMiddleValues(position, pre_a, pre_l, frequencies, sequence[1:index], prev_letters, first)
+      alpha = beta
+      beta = long + alpha
     end
     first = false
   end
-  return alpha,betha,long
+  return alpha,beta,long
 end
 
 function main()
   fi = [0.25,0.2,0.2,0.15,0.1,0.1]
   alphabet = ['a','b','c','d','e','f']
-  sequence = "bfac"
+  sequence = "abac"
   frequencies = Dict([ (letter,f) for (letter,f) in zip(alphabet,fi)])
   sorted_alphabet = collected_values(frequencies)
   println("Inicio de ciclo")
   
   for (idx,set) in enumerate(sequence)
     println("Analizando secuencia: $(sequence[1:idx])")
-    alpha,beta,long = arithmetic_encoding(frequencies, sorted_alphabet, sequence[1:idx])
+    #alpha,beta,long = arithmetic_encoding(frequencies, sorted_alphabet, sequence[1:idx])
+    alpha,beta,long = arithmetic_adaptative(frequencies, sorted_alphabet,sequence[1:idx] )
     println("a $alpha b $beta, l $long")
     run_method_one(alpha,beta,long)
     run_method_two(alpha,beta)

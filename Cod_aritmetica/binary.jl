@@ -5,7 +5,7 @@ function readeable_code(code)
 end
 
 # Method 1
-function smallest_integer(alpha,beta,long)
+function smallest_integer(long)
   isUnderLength = false
   t = 0
   while !isUnderLength
@@ -26,7 +26,7 @@ end
 
 function run_method_one(alpha,beta,long)
   println("Metodo 1")
-  t = smallest_integer(alpha,beta,long)
+  t = smallest_integer(long)
   r = get_inequalities(alpha,beta,t)
   code = getCodification(1/r)
   println( readeable_code(code) )
