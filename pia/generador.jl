@@ -33,12 +33,14 @@ function generate()
     symbolized_conf = []
     start_symbol = 'A' # ascii codepoint de 0x00000041, esto nos servirá más adelante
     start_codepoint = codepoint('A')
+    bracket_codepoints = [codepoint('['), codepoint(']')]
     # el codepoint de la Z es 0x0000005a
     # el codepoint de 'a' es 0x00000061
     # quizas empezar en 0x21? el codepoint del !
     # hasta 0x7f el codepoint de ~
     # son 94 combinaciones posibles
     # actualmente solo tenemos 50
+    # cambiar a utf-8
     while end_range <= size_vec
         range = start_range:end_range
         digits = vec_conf[range]
@@ -50,6 +52,9 @@ function generate()
                 start_codepoint = 0x00000061
             else
                 start_codepoint += 1
+                if start_codepoint in bracket_codepoints
+                    start_codepoint +=1
+                end
             end
             start_symbol = Char(start_codepoint)
         else
@@ -64,17 +69,20 @@ function generate()
         end_range += length_symbol
     end
     conf_int = Int.(conf)
-    open("config_raw.txt", "w") do io
+    raw_path = "config_raw_$n" * "_$m" * ".txt"
+    open(raw_path, "w") do io
         writedlm(io, conf_int)
     end
     symbols = hcat(symbols)
     symbolized_conf = hcat(symbolized_conf)
     comb_int = [Int.(vector) for vector in combinaciones]
-    open("config_metadata.txt", "w") do io
+    meta_path = "config_metadata_$n" * "_$m" * ".txt"
+    open(meta_path, "w") do io
         writedlm(io, [n m], ' ')
         writedlm(io, [comb_int symbols], ' ')
     end
-    open("config_compressed.txt", "w") do io
+    compr_path = "config_compressed_$n" * "_$m" * ".txt"
+    open(compr_path, "w") do io
         writedlm(io, [symbolized_conf], ' ')
     end
     vec_int_conf = Int.(vec_conf)
