@@ -36,7 +36,6 @@ function getLastIndexValues(pre_beta,letters, frequencies)
 end
 
 function arithmetic(freq_table, sequence)
-
   float_freq = Dict()
   len_str = length(sequence)
   for (key, value) in freq_table
@@ -48,14 +47,12 @@ function arithmetic(freq_table, sequence)
   # sequence = "bfac"
   
   sorted_alphabet = collected_values(float_freq)
-  println("Inicio de ciclo")
   first = true
   alpha = 0
   beta = 0
   long = 0
   # prev_letters = sorted letters, takes the previous of the current letter, if 'c' then takes 'a','b' and so on
   for (index,letter) in enumerate(sequence)
-    println("letra $letter")
     position_letter = findfirst(x-> x == letter, sorted_alphabet) 
     if position_letter == 1
       alpha,beta,long = getFirstIndexValues(alpha,float_freq,sequence[1:index])
@@ -70,9 +67,7 @@ function arithmetic(freq_table, sequence)
     end
     first = false
   end
-  println("a $alpha b $beta, l $long")
   run_method_one(alpha,beta,long)
   run_method_two(alpha,beta)
 end
-# main()
 
