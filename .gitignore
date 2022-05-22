@@ -3,3 +3,4 @@
 lib64
 *.cfg
 /bin
+*.bin

@@ -72,9 +72,10 @@ function main()
     println(msg)
     for (idx,set) in enumerate(msg)
         println("Analizando secuencia: $(msg[1:idx])")
-        arithmetic(freq_table, msg[1:idx])
+        out = arithmetic(freq_table, msg[1:idx])
+        c_ratio = compression_ratio_arithmetic(msg[1:idx], out)
+        println("Compression ratio for $(msg[1:idx]) : $c_ratio")
     end
-    # arithmetic(freq_table, msg)
 
     println("LZSS:")
 

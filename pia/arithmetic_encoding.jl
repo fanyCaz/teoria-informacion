@@ -68,6 +68,7 @@ function arithmetic(freq_table, sequence)
     first = false
   end
   run_method_one(alpha,beta,long)
-  run_method_two(alpha,beta)
+  code = run_method_two(alpha,beta)
+  return code
 end
 

@@ -32,6 +32,7 @@ function run_method_one(alpha,beta,long)
   r = get_inequalities(alpha,beta,t)
   code = getCodification(1/r)
   println( readeable_code(code) )
+  return code
 end
 
 # Method 2
@@ -70,4 +71,6 @@ function run_method_two(alpha,beta)
   end
   #println("con $counter y values: $alpha_value - $beta_value")
   println( readeable_code(code) )
+  return code
 end
+
