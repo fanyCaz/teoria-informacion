@@ -61,7 +61,7 @@ function main()
     bitstring = encode(codes, msg)
     println(bitstring)
     c_ratio = compression_ratio(freq_table, codes)
-    println("Compression ratio for Huffman: $c_ratio")
+    
     
 
     mensaje_descomprimido_huff = decode(huffman_tree, bitstring)
@@ -80,6 +80,8 @@ function main()
 
 
     lz_rc = lempel_ziv_encode(msg)
+
+    println("Compression ratio for Huffman: $c_ratio")
 
     println("Compression ratio for LZSS: $lz_rc")
 
