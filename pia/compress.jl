@@ -1,9 +1,10 @@
-using DelimitedFiles
+using DelimitedFiles, PythonCall
 
 include("huffman.jl")
 include("huffman2.jl")
 include("arithmetic_encoding.jl")
 include("utils.jl")
+include("lzss.jl")
 
 function read_meta(path::String)
     n = 0
@@ -53,21 +54,53 @@ function main()
 
     freq_table = makefreqdict(msg)
     println("frecuencias $freq_table")
-
     huffman_tree = create_tree(msg)
     codes = create_codebook(huffman_tree)
+
     println("codes: $codes")
     bitstring = encode(codes, msg)
     println(bitstring)
     c_ratio = compression_ratio(freq_table, codes)
-    println("Compression ration for Huffman: $c_ratio")
+    println("Compression ratio for Huffman: $c_ratio")
+    
+
+    mensaje_descomprimido_huff = decode(huffman_tree, bitstring)
+    
 
     println("Arithmetic: ")
+
     println(msg)
     for (idx,set) in enumerate(msg)
         println("Analizando secuencia: $(msg[1:idx])")
         arithmetic(freq_table, msg[1:idx])
     end
+    # arithmetic(freq_table, msg)
+
+    println("LZSS:")
+
+
+    lz_rc = lempel_ziv_encode(msg)
+
+    println("Compression ratio for LZSS: $lz_rc")
+
+    # comprobar
+
+    lempel_ziv_decode("out.bin")
+
+    mensaje_descomprimido_lz = read("salida.txt", String)
+
+
+    println("COMPROBACIONES")
+
+
+
+    @show mensaje_descomprimido_huff
+
+    @show mensaje_descomprimido_lz
+
+
+
+    
 end
 
 main()
