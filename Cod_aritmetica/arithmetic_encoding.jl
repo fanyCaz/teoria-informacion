@@ -54,7 +54,8 @@ end
 
 function decoder(sorted_alphabet, frequencies, n, r)
   sorted_values = []
-  for i in sorted_alphabet
+  cumulative_freqs = []
+  for (jdx,i) in enumerate(sorted_alphabet)
     push!(sorted_values,frequencies[i[1]])
   end
 
@@ -67,26 +68,13 @@ function decoder(sorted_alphabet, frequencies, n, r)
   println(sorted_alphabet)
   println(cumulative_freqs)
   for iter in 1:n
-    println("iteracion $iter")
     for (idx,val) in enumerate(cumulative_freqs)
       min_alpha = idx == 1 ? 0 : cumulative_freqs[idx-1]
-      println("min alpha : $min_alpha -> $val .l=> $l, r $r ")
-      println("caluclatin min alpha $(cumulative_freqs[idx]) idx : $idx")
       letter = sorted_alphabet[idx][1]
       if r >= min_alpha && r < val
-        #r = (r - alpha)/(beta-alpha)
         r = (r - min_alpha)/(val-min_alpha)
         push!(letters, letter)
-        println("cambio? ")
         break
-        #=
-        letter = sorted_alphabet[idx][1]
-        push!(letters, letter)
-        a = idx == 1 ? min_alpha : sorted_values[idx-1]
-        l = frequencies[letter]
-        r = (r-a)/l
-        break
-        =#
       end
     end
   end
@@ -140,7 +128,7 @@ function arithmetic_adaptative(frequencies, sorted_alphabet, sequence)
 end
 
 function main()
-  sequence = "Anita lava la tina"
+  sequence = "ABCDEFGHCIJAKELMNODPQIRC"
   freq_table = makefreqdict(sequence)
   float_freq = Dict()
   len_str = length(sequence)
