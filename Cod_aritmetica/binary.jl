@@ -39,6 +39,7 @@ function run_method_two(alpha,beta)
   code = []
   alpha_value = alpha
   beta_value = beta
+  counter = 0
 
   while true
     if alpha_value < 1
@@ -55,11 +56,17 @@ function run_method_two(alpha,beta)
       beta_value = (beta_value-1)*2
       beta_binary = 1
     end
+
+    if counter > 200
+      break
+    end
+
     if alpha_binary == beta_binary
       push!(code,alpha_binary)
     else
       break
     end
+    counter += 1
   end
   println( readeable_code(code) )
 end

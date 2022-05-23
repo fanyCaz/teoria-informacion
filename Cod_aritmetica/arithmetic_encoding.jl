@@ -55,7 +55,7 @@ end
 function decoder(sorted_alphabet, frequencies, n, r)
   sorted_values = []
   for i in sorted_alphabet
-    push!(sorted_values,frequencies[i])
+    push!(sorted_values,frequencies[i[1]])
   end
 
   println("Decoder")
@@ -63,19 +63,30 @@ function decoder(sorted_alphabet, frequencies, n, r)
   cumulative_freqs = cumsum(sorted_values)
   a = 0
   l = 1
-  println("alphabet : $sorted_alphabet")
+  r = (r-a)/l
+  println(sorted_alphabet)
+  println(cumulative_freqs)
   for iter in 1:n
+    println("iteracion $iter")
     for (idx,val) in enumerate(cumulative_freqs)
-      min_alpha = idx == 1 ? 0 : sorted_values[idx-1]
-      println("what is going on $iter : r $r , a: $a ,l: $l")
-      println("condiciones $min_alpha & $val")
+      min_alpha = idx == 1 ? 0 : cumulative_freqs[idx-1]
+      println("min alpha : $min_alpha -> $val .l=> $l, r $r ")
+      println("caluclatin min alpha $(cumulative_freqs[idx]) idx : $idx")
+      letter = sorted_alphabet[idx][1]
       if r >= min_alpha && r < val
-        letter = sorted_alphabet[idx]
+        #r = (r - alpha)/(beta-alpha)
+        r = (r - min_alpha)/(val-min_alpha)
+        push!(letters, letter)
+        println("cambio? ")
+        break
+        #=
+        letter = sorted_alphabet[idx][1]
         push!(letters, letter)
         a = idx == 1 ? min_alpha : sorted_values[idx-1]
         l = frequencies[letter]
         r = (r-a)/l
         break
+        =#
       end
     end
   end
@@ -88,19 +99,17 @@ function arithmetic_encoding(frequencies, sorted_alphabet, sequence)
   beta = 0
   long = 0
   # prev_letters = sorted letters, takes the previous of the current letter, if 'c' then takes 'a','b' and so on
-  println("sroted alfaphet $sorted_alphabet")
-  # el find firts debe encontrar la letra en el sorted_alphabet pero solo en su columna 1
   for (index,letter) in enumerate(sequence)
-    position_letter = findfirst(x-> x == letter, sorted_alphabet) 
-    println("position $position_letter")
+    position_letter = findfirst(x-> x[1] == letter, sorted_alphabet) 
     if position_letter == 1
       alpha,beta,long = getFirstIndexValues(alpha,frequencies,sequence[1:index])
     elseif position_letter == length(frequencies)
-      beta = first ? frequencies[sorted_alphabet[position_letter]] : beta
+      beta = first ? frequencies[ sorted_alphabet[position_letter][1]] : beta 
       alpha,beta,long = getLastIndexValues(beta,sequence[1:index],frequencies)
     else
-      var =frequencies[sorted_alphabet[position_letter-1]]
-      prev_letters = sorted_alphabet[1:findfirst(isequal(letter), sorted_alphabet)-1]
+      var =frequencies[ sorted_alphabet[position_letter][1] ]
+      prev_letters = sorted_alphabet[1:findfirst(x->x[1] == letter, sorted_alphabet)-1]
+      prev_letters = [ pair[1] for pair in prev_letters ]
       pre_a, pre_l = first ? (var,var) : (alpha,long)
       alpha,beta,long = getMiddleValues(position, pre_a, pre_l, frequencies, sequence[1:index], prev_letters, first)
     end
@@ -131,7 +140,7 @@ function arithmetic_adaptative(frequencies, sorted_alphabet, sequence)
 end
 
 function main()
-  sequence = "abac"
+  sequence = "Anita lava la tina"
   freq_table = makefreqdict(sequence)
   float_freq = Dict()
   len_str = length(sequence)
@@ -141,8 +150,15 @@ function main()
   # freq_table = float_freq
   fi = values(float_freq)
   alphabet = keys(float_freq)
+  collected_keys = []
 
-  sorted_alphabet = collected_values(float_freq)
+  for l in unique(sequence)
+    push!(collected_keys,Pair(l,float_freq[l]))
+  end
+  println("aifjoaij $collected_keys")
+
+  #sorted_alphabet = collected_values(float_freq)
+  sorted_alphabet = collected_keys
   println("Inicio de ciclo")
   println(freq_table)
   println(float_freq)
@@ -153,8 +169,8 @@ function main()
     alpha,beta,long = arithmetic_encoding(frequencies, sorted_alphabet, sequence[1:idx])
     #alpha,beta,long = arithmetic_adaptative(frequencies, sorted_alphabet,sequence[1:idx] )
     println("a $alpha b $beta, l $long")
-    run_method_one(alpha,beta,long)
-    run_method_two(alpha,beta)
+    #run_method_one(alpha,beta,long)
+    #run_method_two(alpha,beta)
     push!(levels,(beta+alpha)/2)
   end
   println("levels : $levels -> $(last(levels))")
