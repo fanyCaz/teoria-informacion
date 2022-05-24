@@ -25,7 +25,7 @@ function generate()
 
     vec_conf = vec(conf) # para pasarlo a un vector
     size_vec = length(vec_conf)
-    length_symbol = 6 # puede ser 9
+    length_symbol = 9 # puede ser 9
     start_range = 1
     end_range = length_symbol
     combinaciones = []
