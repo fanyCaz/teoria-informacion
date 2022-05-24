@@ -17,8 +17,8 @@ function lempel_ziv_encode(msg)
     lempel.main("temp.txt", "out.bin", "encode")
 
 
-    Rc = filesize("temp.txt") / filesize("out.bin")
-    rm("temp.txt")
+    Rc = filesize("temp.txt") * 1.125 / filesize("out.bin")
+    # rm("temp.txt")
     return Rc
     
     
