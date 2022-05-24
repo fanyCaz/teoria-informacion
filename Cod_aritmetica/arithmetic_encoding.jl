@@ -128,7 +128,7 @@ function arithmetic_adaptative(frequencies, sorted_alphabet, sequence)
 end
 
 function main()
-  sequence = "ABCDEFGHCIJAKELMNODPQIRC"
+  sequence = "hola"
   freq_table = makefreqdict(sequence)
   float_freq = Dict()
   len_str = length(sequence)
@@ -157,8 +157,8 @@ function main()
     alpha,beta,long = arithmetic_encoding(frequencies, sorted_alphabet, sequence[1:idx])
     #alpha,beta,long = arithmetic_adaptative(frequencies, sorted_alphabet,sequence[1:idx] )
     println("a $alpha b $beta, l $long")
-    #run_method_one(alpha,beta,long)
-    #run_method_two(alpha,beta)
+    run_method_one(alpha,beta,long)
+    run_method_two(alpha,beta)
     push!(levels,(beta+alpha)/2)
   end
   println("levels : $levels -> $(last(levels))")
