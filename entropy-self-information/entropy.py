@@ -17,7 +17,7 @@ def autoinformation(items: list, event_type: str) -> list:
   logarithm = getLogarithmType(event_type)
   if logarithm is not None:
     res = [ -logarithm(item) for item in items ]
-  return res
+    return res
 
 def entropy(items: list, event_type: str) -> float:
   logarithm = getLogarithmType(event_type)
