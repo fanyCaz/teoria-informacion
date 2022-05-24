@@ -13,7 +13,7 @@ function read_meta(path::String)
     n = meta_data[1, 1]
     m = meta_data[1, 2]
     combins = meta_data[2:end, :] # la primera linea es de el tamaño de la matriz
-    length_symbol = 6 #Luego hacemos que se anote tambien en el archivo
+    length_symbol = 9 #Luego hacemos que se anote tambien en el archivo
     combinaciones = []
     symbols = []
     for i in 1:size(combins)[1]
