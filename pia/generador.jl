@@ -1,6 +1,8 @@
 using DelimitedFiles
 
 function generate()
+
+    @info "Usando FPGA Xilinx Virtex XCV1000: Cantidad Máxima en el arreglo de la configuración: 64x96"
     print("Ingrese el número de CLBs por frame: ")
     n = 0
     try
@@ -53,9 +55,9 @@ function generate()
     symbols = []
     symbolized_conf = []
     # start_symbol = 'A' # ascii codepoint de 0x00000041, esto nos servirá más adelante
-    start_codepoint = 0x0021 # empieza en !
+    start_codepoint = 0x00A1 # empieza en ¡
     start_symbol = Char(start_codepoint)
-    not_allowed_codepoints = [0x005B, 0x005D, 0x002C, 0x0022]
+    not_allowed_codepoints = [0x005B, 0x005D, 0x002C, 0x0022, 0x007f, 0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087, 0x0088, 0x0089, 0x008A, 0x008B, 0x008C, 0x008D, 0x008E, 0x008F, 0x0090, 0x0091, 0x0092, 0x0093, 0x0094, 0x0095, 0x0096, 0x0097, 0x0098, 0x0099, 0x009A, 0x009B, 0x009C, 0x009D, 0x009E, 0x009F, 0x00A0]
     number_codepoints = [codepoint(string(num)[1]) for num in 0:9] # no podemos usar numeros como simbolos porque se rompe lo demas
     # el codepoint de la Z es 0x0000005a
     # el codepoint de 'a' es 0x00000061
@@ -80,6 +82,8 @@ function generate()
                 end
 
                 if start_codepoint in number_codepoints
+                    print(start_codepoint)
+                    print(Char(start_codepoint))
                     start_codepoint = number_codepoints[end] + 1 # skip todo?
                 end
             # end
@@ -95,7 +99,9 @@ function generate()
         start_range += length_symbol
         end_range += length_symbol
     end
+    println(conf[1:10,1])
     conf_int = Int.(conf)
+    println(conf_int[1:10,1])
     raw_path = "config_raw_$n" * "_$m" * ".txt"
     open(raw_path, "w") do io
         writedlm(io, conf_int)
