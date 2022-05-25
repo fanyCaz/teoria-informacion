@@ -2,9 +2,28 @@ using DelimitedFiles
 
 function generate()
     print("Ingrese el número de CLBs por frame: ")
-    n = parse(Int, readline())
+    try
+        n = parse(Int, readline())
+        if n<=0
+            throw(error())
+        end
+    catch e
+        println("Ingresa numeros mayores que 0 y enteros")
+        exit(1)
+
+    end
+    
     print("Ingrese el número de frames: ")
-    m = parse(Int, readline())
+    try
+        m = parse(Int, readline())
+        if m<=0
+            throw(error())
+        end
+    catch e
+        println("Ingresa numeros mayores que 0 y enteros")
+        exit(1)
+    end
+    
     # un CLB mide 18 bits, un IOB 18 tambien
     # a fuerzas tenemos un bloque TOP de IOBs y uno BOTTOM
     configuracion = []
