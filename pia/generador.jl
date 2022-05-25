@@ -2,6 +2,7 @@ using DelimitedFiles
 
 function generate()
     print("Ingrese el número de CLBs por frame: ")
+    n = 0
     try
         n = parse(Int, readline())
         if n<=0
@@ -12,6 +13,7 @@ function generate()
         exit(1)
 
     end
+    m = 0
     
     print("Ingrese el número de frames: ")
     try
