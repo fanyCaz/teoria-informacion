@@ -75,14 +75,28 @@ function main()
     
 
     println("Arithmetic: ")
-
     println(msg)
+
+    collected_keys = []
+
+    for l in unique(msg)
+    push!(collected_keys,Pair(l,freq_table[l]))
+    end
+    println("$collected_keys")
+
+    sorted_alphabet = collected_keys
+    levels = []
+    code = ""
     for (idx,set) in enumerate(msg)
         println("Analizando secuencia: $(msg[1:idx])")
-        out = arithmetic(freq_table, msg[1:idx])
-        c_ratio = compression_ratio_arithmetic(msg[1:idx], out)
-        println("Compression ratio for $(msg[1:idx]) : $c_ratio")
+        out,alpha,beta = arithmetic(freq_table, msg[1:idx], sorted_alphabet)
+        code = out
+        c_ratio = compression_ratio_arithmetic(msg[1:idx], code)
+        println( readeable_code(code) )
+        push!(levels,(beta+alpha)/2)
     end
+    c_ratio = compression_ratio_arithmetic(msg, code)
+    println("Compression ratio for $msg with Arithmetic Encoding: $c_ratio")
 
     println("LZSS:")
 

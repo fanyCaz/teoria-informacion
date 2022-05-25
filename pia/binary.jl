@@ -27,18 +27,18 @@ function get_inequalities(alpha,beta,t)
 end
 
 function run_method_one(alpha,beta,long)
-  println("Metodo 1")
+  #println("Metodo 1")
   t = smallest_integer(long)
   r = get_inequalities(alpha,beta,t)
   code = getCodification(1/r)
-  println( readeable_code(code) )
+  #println( readeable_code(code) )
   return code
 end
 
 # Method 2
 
 function run_method_two(alpha,beta)
-  println("Metodo 2")
+  #println("Metodo 2")
   code = []
   alpha_value = alpha
   beta_value = beta
@@ -69,8 +69,7 @@ function run_method_two(alpha,beta)
       break
     end
   end
-  #println("con $counter y values: $alpha_value - $beta_value")
-  println( readeable_code(code) )
+  #println( readeable_code(code) )
   return code
 end
 

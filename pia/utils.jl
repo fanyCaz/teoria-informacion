@@ -6,7 +6,7 @@ end
 
 function compression_ratio_arithmetic(entry, out)
   if length(out) == 0
-    return missing
+    return 0
   end
   return (length(entry)*9)/length(out)
 end
