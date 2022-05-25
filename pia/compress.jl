@@ -47,6 +47,13 @@ function main()
     end
     num_cols = m
     configuration_processed = reshape(configuration, :, num_cols)
+
+    configuration_processed = Int.(configuration_processed)
+
+    conf_path = "config_restaurada_$n" * "_$m" * ".txt"
+    open(conf_path, "w") do io
+        writedlm(io, configuration_processed)
+    end
     msg = string(compressed...)
     @show msg
 
@@ -100,6 +107,8 @@ function main()
     @show mensaje_descomprimido_huff
 
     @show mensaje_descomprimido_lz
+
+
 
 
 
