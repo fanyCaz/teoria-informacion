@@ -68,7 +68,7 @@ function main()
     bitstring = encode(codes, msg)
     println(bitstring)
     c_ratio = compression_ratio(freq_table, codes)
-    
+    print_file("huffman", bitstring, c_ratio)
     
 
     mensaje_descomprimido_huff = decode(huffman_tree, bitstring)
@@ -98,6 +98,7 @@ function main()
     c_ratio = compression_ratio_arithmetic(msg, code)
     println("Compression ratio for $msg with Arithmetic Encoding: $c_ratio")
 
+    print_file("ac", code, c_ratio)
     println("LZSS:")
 
 
