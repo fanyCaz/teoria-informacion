@@ -7,11 +7,11 @@ function generate()
     n = 0
     try
         n = parse(Int, readline())
-        if n<=0
+        if n<=0 || n > 64
             throw(error())
         end
     catch e
-        println("Ingresa numeros mayores que 0 y enteros")
+        println("Ingresa numeros mayores que 0, menores que 64 y enteros")
         exit(1)
 
     end
@@ -20,11 +20,11 @@ function generate()
     print("Ingrese el número de frames: ")
     try
         m = parse(Int, readline())
-        if m<=0
+        if m<=0 || m > 96
             throw(error())
         end
     catch e
-        println("Ingresa numeros mayores que 0 y enteros")
+        println("Ingresa numeros mayores que 0, menores que 96 y enteros")
         exit(1)
     end
     
