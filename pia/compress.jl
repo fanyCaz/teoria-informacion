@@ -68,6 +68,8 @@ function main()
     bitstring = encode(codes, msg)
     println(bitstring)
     c_ratio = compression_ratio(freq_table, codes)
+
+    println("Compression ratio for Huffman: $c_ratio")
     print_file("huffman", bitstring, c_ratio)
     
 
@@ -80,20 +82,22 @@ function main()
     collected_keys = []
 
     for l in unique(msg)
-    push!(collected_keys,Pair(l,freq_table[l]))
+        push!(collected_keys,Pair(l,freq_table[l]))
     end
-    println("$collected_keys")
 
     sorted_alphabet = collected_keys
     levels = []
     code = ""
-    for (idx,set) in enumerate(msg)
-        println("Analizando secuencia: $(msg[1:idx])")
-        out,alpha,beta = arithmetic(freq_table, msg[1:idx], sorted_alphabet)
-        code = out
-        c_ratio = compression_ratio_arithmetic(msg[1:idx], code)
-        println( readeable_code(code) )
-        push!(levels,(beta+alpha)/2)
+    for idx = firstindex(msg):lastindex(msg)
+        try
+            println("Analizando secuencia: $(msg[1:idx])")
+            out,alpha,beta = arithmetic(freq_table, msg[1:idx], sorted_alphabet)
+            code = out
+            c_ratio = compression_ratio_arithmetic(msg[1:idx], code)
+            println( readeable_code(code) )
+            push!(levels,(beta+alpha)/2)
+        catch
+        end
     end
     c_ratio = compression_ratio_arithmetic(msg, code)
     println("Compression ratio for $msg with Arithmetic Encoding: $c_ratio")
@@ -103,8 +107,6 @@ function main()
 
 
     lz_rc = lempel_ziv_encode(msg)
-
-    println("Compression ratio for Huffman: $c_ratio")
 
     println("Compression ratio for LZSS: $lz_rc")
 
