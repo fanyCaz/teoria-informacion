@@ -1,4 +1,3 @@
-#https://stackoverflow.com/a/10691412
 class BitWriter(object):
     def __init__(self, f):
         self.accumulator = 0
@@ -14,7 +13,7 @@ class BitWriter(object):
     def __del__(self):
         try:
             self.flush()
-        except ValueError:   # I/O operation on closed file.
+        except ValueError:
             pass
 
     def _writebit(self, bit):

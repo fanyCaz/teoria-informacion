@@ -16,43 +16,39 @@ class Encoder():
         return int.from_bytes(byte, byteorder="big")
 
     def _read_next(self, buffer: CircularBuffer, dictionary: CircularBuffer, infile) -> bool:
-        """Read next to buffer, return false if there is nothing to read"""
         dictionary.put_byte(buffer.get_byte_at(0))
         last_byte = infile.read(1)
         if last_byte:
-            buffer.put_byte(self._byte2int(last_byte))  # read another byte to buffer
+            buffer.put_byte(self._byte2int(last_byte))
             return True
         else: # EOF?
             buffer.pop()
             return buffer.get_fill() > 0
 
     def encode(self, inpath, outpath):
-        cinco_veces = 5
+        ocho_veces = 8
         dictionary = CircularBuffer(self.DICTIONARY_SIZE)
         buffer = CircularBuffer(self.MAX_MATCH_SIZE)
         with SmartOpener.smart_read(inpath) as infile, SmartOpener.smart_write(outpath) as outfile:
             with bitio.BitWriter(outfile) as writer:
-                for i in range(0, self.MAX_MATCH_SIZE): #read max allowable match as initial buffer value
+                for i in range(0, self.MAX_MATCH_SIZE):
                     buffer.put_byte(self._byte2int(infile.read(1)))
                 is_there_something_to_read = True
                 while is_there_something_to_read:
                     longest_match_ref = dictionary.get_longest_match(self.MAX_MATCH_SIZE, buffer)
-                    if cinco_veces >= 0:
+                    if ocho_veces >= 0:
                         caracteres = [chr(numero) for numero in dictionary._buffer]
                         print(caracteres)
-                        cinco_veces = cinco_veces - 1
+                        ocho_veces = ocho_veces - 1
                     if (longest_match_ref.get_length() > self.MIN_MATCH_SIZE):
                         print(longest_match_ref)
                         writer.writebits(self.ENCODED_FLAG, 1)
                         writer.writebits(longest_match_ref.get_bits(), 16)
-                        #print("Writing ref: " + str(bin(longest_match_ref.get_bits())))
                         for i in range(0, longest_match_ref.get_length()):
-                            # go forward since only match reference is written
                             is_there_something_to_read = self._read_next(buffer, dictionary, infile)
                     else:
                         writer.writebits(0, 1)
-                        #print("Writing raw: " + str(bin(buffer.get_byte_at(0))))
-                        writer.writebits(buffer.get_byte_at(0), 8) #write original byte
+                        writer.writebits(buffer.get_byte_at(0), 8)
                         is_there_something_to_read = self._read_next(buffer, dictionary, infile)
 
     def decode(self, inpath, outpath):
@@ -66,7 +62,7 @@ class Encoder():
                         reference_length_bits = reader.readbits(4)
                         reference = Reference(reference_pos_bits, reference_length_bits)
                         if reference.get_length() <= self.MIN_MATCH_SIZE:
-                            raise Exception("There should be no such reference: " + str(reference) + "pos: " + str(infile.tell()))
+                            raise Exception("No referencia: " + str(reference) + "pos: " + str(infile.tell()))
                         for byte in dictionary.get_match(reference.get_pos(), reference.get_length()):
                             dictionary.put_byte(byte)
                             writer.writebits(byte, 8)
